@@ -1,6 +1,7 @@
 import os
 from typing import Union
 
+from pymongo import DESCENDING
 from fastapi import FastAPI
 import uvicorn
 from pydantic import BaseModel
@@ -34,14 +35,22 @@ def base():
 
 @app.get("/users")
 def get_users():
-    users = get_user_db()
-    return {"users": users.find()}
+    users_db = get_user_db()
+    users = users_db.find()
+    users_list = []
+
+    for user in users:
+        users_list.append({
+            "name": user["name"],
+            "public": user["public"]
+        })
+    return {"users": users_list}
 
 
 @app.get("/user/{name}")
 def get_user(name: str):
     users = get_user_db()
-    user = users.find_one({"name": name})
+    user = users.find_one({"name": name}, sort=[('_id', DESCENDING)])
     return {
         "name": user["name"],
         "public": user["public"]
@@ -94,7 +103,7 @@ def get_transfers(to_user: str):
 @app.get("/transfer/{to_user}")
 def get_transfer(to_user: str):
     transfers = get_transfers_db()
-    transfer = transfers.find_one({"to_user": to_user})
+    transfer = transfers.find_one({"to_user": to_user}, sort=[('_id', DESCENDING)])
     return {
         "from_user": transfer["from_user"],
         "to_user": transfer["to_user"],
