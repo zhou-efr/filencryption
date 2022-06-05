@@ -35,8 +35,8 @@ def generate_password(target):
     url = os.getenv("API_BASE_URL") + '/user/' + target
     target = get(url).json()
 
-    password_seed = pow(base['common'], PRIVATE_COMPONENT, base['base'])
-    password_seed = pow(password_seed, target['public'], base['base'])
+    # password_seed = pow(base['common'], PRIVATE_COMPONENT, base['base'])
+    password_seed = pow(target['public'], PRIVATE_COMPONENT, base['base'])
 
     seed(password_seed)
 
