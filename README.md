@@ -1,8 +1,9 @@
-# Basic file encryption system
+# Basic file encryption system API
 
-## Presentation
-This is a basic e2ee encryption system. It is based on the [AES-256-GCM](https://en.wikipedia.org/wiki/Galois/Counter_Mode) algorithm.
+## Installation
+First you'll need to set following environment variables:
+`MONGODB_FILE_ENCRYPTION_URI` : The URI of the MongoDB instance. 
+`BASE_KEY`: The base key used to encrypt the files.
+`BASE_MODULUS`: The base modulus used to encrypt the files.
 
-The concept is to encrypt a file with a random password generated with a seed. This seed is created from the private key of the sender and the public key of the receiver following [Diffie-Hellman](https://en.wikipedia.org/wiki/Diffie%E2%80%93Hellman_key_exchange) secret key exchange process.
-
-The API store publicly the public key of all user and the file transfers in a MongoDB database.
+Then you can create a new virtual environment for the client with `python -m venv ./venv` then activate it with `.\venv\Scripts\activate.bat`. You can now install the dependencies with `pip install -r requirements.txt`.
